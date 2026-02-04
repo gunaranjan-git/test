@@ -1,0 +1,38 @@
+name: Upload Sample CSV to S3
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:           # Allows manual run from GitHub UI
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'   # Change to '3.12' or your preferred version if needed
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas boto3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token:     ${{ secrets.AWS_SESSION_TOKEN }}   # optional
+          aws-region:            us-east-1                         # change if your bucket is in another region
+
+      - name: Run S3 Upload Script
+        env:
+          S3_BUCKET: zeb-ds-poc-s3
+          S3_KEY:    gunaranjan_poc/git-test/sample_data.csv
+        run: python test.py   # ← CHANGE TO YOUR ACTUAL SCRIPT NAME (e.g. upload_to_s3.py)
