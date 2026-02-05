@@ -1,9 +1,7 @@
 name: Upload Sample CSV to S3
 
 on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:           # Allows manual run from GitHub UI
+  workflow_dispatch:           
 
 jobs:
   upload:
@@ -16,7 +14,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'   # Change to '3.12' or your preferred version if needed
+          python-version: '3.11'   
 
       - name: Install dependencies
         run: |
@@ -28,11 +26,11 @@ jobs:
         with:
           aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token:     ${{ secrets.AWS_SESSION_TOKEN }}   # optional
-          aws-region:            us-east-1                         # change if your bucket is in another region
+          aws-session-token:     ${{ secrets.AWS_SESSION_TOKEN }}   
+          aws-region:            us-east-1                         
 
       - name: Run S3 Upload Script
         env:
           S3_BUCKET: zeb-ds-poc-s3
           S3_KEY:    gunaranjan_poc/git-test/sample_data.csv
-        run: python test.py   # ← CHANGE TO YOUR ACTUAL SCRIPT NAME (e.g. upload_to_s3.py)
+        run: python test.py
