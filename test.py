@@ -24,7 +24,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# merge changes test 1
+# merge changes test 2
 
 # -------------------------------------------------------------------------
 # Get AWS credentials from environment variables
